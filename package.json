@@ -4,7 +4,7 @@
   "description": "A Simple Node.js API to **Study** about authentication.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsnd --respawn --ignore-watch node_modules --no-notify src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,9 @@
     "url": "https://github.com/Gabriel-JM/auth/issues"
   },
   "homepage": "https://github.com/Gabriel-JM/auth#readme",
+  "engines": {
+    "node": ">=12"
+  },
   "devDependencies": {
     "@types/ejs": "^3.0.4",
     "@types/express": "^4.17.7",
