@@ -14,11 +14,10 @@ mongoose.connect(dbUri, {
 })
   .then(() => {
     console.clear()
-    console.log('\x1b[33m[INFO] Database Connected.\n', '\x1b[0m')
+    console.log('\x1b[36m[INFO]\x1b[0m Database Connected.\n')
     app.listen(3000, () => {
       console.log(
-        '\x1b[32m[SUCCESS] Server started!!!\x1b[0m\n'+
-        '[SERVER] Access at: http://localhost:' + port
+        `\x1b[32m[SUCCESS]\x1b[0m Server started! Access at: http://localhost:${port}.\n`
       )
     })
   })
