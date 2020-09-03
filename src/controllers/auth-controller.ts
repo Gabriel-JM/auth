@@ -1,6 +1,9 @@
 import { Request, Response } from 'express'
 import { UserInfo } from '../types/user-info'
 import UserModel from '../models/User'
+import jwt from 'jsonwebtoken'
+
+const maxAge = 3 * 24 * 60 * 60
 
 function handleErrors(err: any) {
   console.log('\x1b[31m[ERROR]\x1b[0m', err.message)
@@ -19,6 +22,12 @@ function handleErrors(err: any) {
   return errors
 }
 
+function createToken(id: string) {
+  return jwt.sign({ id }, 'net ninja secret', {
+    expiresIn: maxAge
+  })
+}
+
 export function signupGet(req: Request, res: Response) {
   res.render('signup')
 }
@@ -33,7 +42,10 @@ export async function signupPost(req: Request, res: Response) {
   try {
     const user = await UserModel.create({ email, password })
 
-    res.status(201).json(user)
+    const token = createToken(user._id)
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
+
+    res.status(201).json({ user: user._id })
   } catch(err) {
     const errors = handleErrors(err)
     res.status(400).json(errors)
