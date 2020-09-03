@@ -1,6 +1,10 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
+
+interface UserModelStatics {
+  login(email: string, password: string): Promise<Document>
+}
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -24,6 +28,20 @@ userSchema.pre('save', async function(this: any, next) {
   next()
 })
 
+userSchema.statics.login = async function(email: string, password: string) {
+  const user = await this.findOne({ email })
+
+  if(user) {
+    const isValid = await bcrypt.compare(password, user.password)
+
+    if(isValid) return user
+
+    throw new Error('Incorrect Password')
+  }
+
+  throw new Error('Incorrect Email')
+}
+
 const UserModel = mongoose.model('user', userSchema)
 
-export default UserModel
+export default UserModel as mongoose.Model<mongoose.Document, {}> & UserModelStatics
