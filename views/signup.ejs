@@ -16,9 +16,14 @@
 
 <script>
   const form = document.querySelector('form')
+  const emailErrorDiv = document.querySelector('div.email.error')
+  const passwordErrorDiv = document.querySelector('div.password.error')
 
   form.addEventListener('submit', async e => {
     e.preventDefault()
+
+    emailErrorDiv.textContent = ''
+    passwordErrorDiv.textContent = ''
 
     const email = form.email.value
     const password = form.password.value
@@ -30,6 +35,16 @@
         headers: { 'Content-Type': 'application/json' }
       })
 
+      const data = await res.json()
+
+      if(data.errors) {
+        emailErrorDiv.textContent = data.errors.email
+        passwordErrorDiv.textContent = data.errors.password
+      }
+
+      if(data.user) {
+        location.assign('/')
+      }
     } catch(error) {
       console.error(error)
     }

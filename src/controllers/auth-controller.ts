@@ -48,7 +48,7 @@ export async function signupPost(req: Request, res: Response) {
     res.status(201).json({ user: user._id })
   } catch(err) {
     const errors = handleErrors(err)
-    res.status(400).json(errors)
+    res.status(400).json({ errors })
   }
 }
 
