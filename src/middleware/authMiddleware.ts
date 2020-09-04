@@ -9,11 +9,11 @@ export default function requireAuth(req: Request, res: Response, next: NextFunct
       if(err) {
         console.error(err.message)
         res.redirect('/login')
+      } else {
+        next()
       }
-
-      next()
     }) as VerifyCallback)
+  } else {
+    res.redirect('/login')
   }
-
-  res.redirect('/login')
 }

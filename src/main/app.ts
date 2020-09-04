@@ -11,9 +11,9 @@ app.use(express.static('public'))
 app.use(express.json())
 app.use(cookieParser())
 
+app.get('*', checkUser)
 app.use(pageRoutes)
 app.use(authRoutes)
 
-app.get('*', checkUser)
 
 export { app }

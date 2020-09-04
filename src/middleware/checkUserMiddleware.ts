@@ -18,8 +18,8 @@ export default function checkUser(req: Request, res: Response, next: NextFunctio
         next()
       }
     }) as VerifyCallback)
+  } else {
+    res.locals.user = null
+    next()
   }
-
-  res.locals.user = null
-  next()
 }
