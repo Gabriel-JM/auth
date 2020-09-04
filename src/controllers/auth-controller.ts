@@ -75,3 +75,8 @@ export async function loginPost(req: Request, res: Response) {
     res.status(400).json({ errors })
   }
 }
+
+export function logoutGet(req: Request, res: Response) {
+  res.cookie('jwt', '', { maxAge: 1 })
+  res.redirect('/')
+}

@@ -5,6 +5,6 @@ const routes = Router()
 
 routes
   .get('/', (req, res) => res.render('home'))
-  .get('/smoothies', requireAuth,(req, res) => res.render('smoothies'))
+  .get('/smoothies', requireAuth, (req, res) => res.render('smoothies'))
 
 export default routes
