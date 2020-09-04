@@ -9,6 +9,14 @@ function handleErrors(err: any) {
   console.log('\x1b[31m[ERROR]\x1b[0m', err.message)
   const errors: { [key: string]: any } = { email: '', password: '' }
 
+  if(err.message === 'Incorrect Email') {
+    errors.email = 'That Email is not registered'
+  }
+
+  if(err.message === 'Incorrect Password') {
+    errors.password = 'The Password is incorrect'
+  }
+
   if(err.message.includes('user validation failed')) {
     Object.values(err.errors).forEach((mongoError: any) => {
       errors[mongoError.properties.path] = mongoError.properties.message
@@ -57,6 +65,9 @@ export async function loginPost(req: Request, res: Response) {
 
   try {
     const user = await UserModel.login(email, password)
+
+    const token = createToken(user._id)
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
 
     res.status(200).json({ user: user._id })
   } catch(err) {
