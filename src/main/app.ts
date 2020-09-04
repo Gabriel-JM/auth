@@ -2,6 +2,7 @@ import express from 'express'
 import authRoutes from '../routes/authRoutes'
 import pageRoutes from '../routes/pageRoutes'
 import cookieParser from 'cookie-parser'
+import checkUser from '../middleware/checkUserMiddleware'
 
 const app = express()
 
@@ -12,5 +13,7 @@ app.use(cookieParser())
 
 app.use(pageRoutes)
 app.use(authRoutes)
+
+app.get('*', checkUser)
 
 export { app }
