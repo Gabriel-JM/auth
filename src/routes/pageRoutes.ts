@@ -1,9 +1,10 @@
 import { Router } from 'express'
+import requireAuth from '../middleware/authMiddleware'
 
 const routes = Router()
 
 routes
   .get('/', (req, res) => res.render('home'))
-  .get('/smoothies', (req, res) => res.render('smoothies'))
+  .get('/smoothies', requireAuth,(req, res) => res.render('smoothies'))
 
 export default routes
